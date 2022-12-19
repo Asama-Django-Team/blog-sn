@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
+from .models import Article
 # Create your views here.
 # def home(request):
 #     return HttpResponse('hiiiiiii')
@@ -14,16 +15,15 @@ from django.http import HttpResponse, JsonResponse
 
 def home(request):
     context = {
-        "Personal":[
-        {
-        "first_name":"ali",
-        "last_name":"hejazi",
-        },
-        {
-        "first_name":"ali",
-        "last_name":"hejazi",
-        },
-                            ]
+        "articles": Article.objects.all()
     }
 
     return render(request, 'blog/home.html',context)
+
+
+def detail(request, slug):
+    context = {
+        "article": Article.objects.get(slug=slug)
+    }
+
+    return render(request, 'blog/detail.html',context)
